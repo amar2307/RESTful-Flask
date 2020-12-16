@@ -6,8 +6,6 @@ from flask import flash,request
 
 @app.route('/add',methods=['POST'])
 def add_user():
-    conn = mysql.connect()
-    cursor = conn.cursor()
     try:
         _json = request.json
         _username=_json['username']
@@ -21,6 +19,8 @@ def add_user():
         if _username and _password and _device and _status and _current and _name and _email and _phone and request.method=='POST':
             sql = "INSERT INTO users(USERNAME,PASSWORD,DEVICE_ID,STATUS,CURRENT,NAME,EMAIL,PHONE_NUMBER) VALUES(%s,%s,%s,%s,%s,%s,%s,%s)"
             data = (_username,_password,_device,_status,_current,_name,_email,_phone,)
+            conn = mysql.connect()
+            cursor = conn.cursor()
             cursor.execute(sql, data)
             conn.commit()
             resp = jsonify('User added successfully!!!!')
@@ -69,17 +69,17 @@ def user(id):
 @app.route('/update',methods=['POST'])
 def update_user():
     try:
-        #_id=request.args.get('id')
-        _device=request.args.get('id')
-        _username=request.args.get('username')
-        _password=request.args.get('password')
-        _status=request.args.get('status')
-        _current=request.args.get('current')
-        _name = request.args.get('name')
-        _email = request.args.get('email')
-        _phone=request.args.get('phone')
+        _json = request.json
+        _device=_json['id']
+        _username=_json['username']
+        _password=_json['password']
+        _status=_json['status']
+        _current=_json['current']
+        _name = _json['name']
+        _email = _json['email']
+        _phone=_json['phone']
         if _username and _password and _device and _status and _current and _name and _email and _phone and request.method=='POST':
-            sql = "UPDATE users SET USERNAME=%s, PASSWORD=%s, STATUS=%s,CURRENT=%s,NAME=%s,EMAIL=%s,PHONE_NUMBER=%s WHERE DEVICE_ID=(id)"
+            sql = "UPDATE users SET USERNAME=%s,PASSWORD=%s,STATUS=%s,CURRENT=%s,NAME=%s,EMAIL=%s,PHONE_NUMBER=%s WHERE DEVICE_ID=%s"
             data = (_username,_password,_status,_current,_name,_email,_phone,_device,)
             conn = mysql.connect()
             cursor = conn.cursor()
