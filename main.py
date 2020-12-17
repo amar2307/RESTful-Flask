@@ -8,17 +8,17 @@ from flask import flash,request
 def add_user():
     try:
         _json = request.json
+        _device=_json['id']
         _username=_json['username']
         _password=_json['password']
-        _device=_json['id']
         _status=_json['status']
         _current=_json['current']
         _name = _json['name']
         _email = _json['email']
         _phone=_json['phone']
         if _username and _password and _device and _status and _current and _name and _email and _phone and request.method=='POST':
-            sql = "INSERT INTO users(USERNAME,PASSWORD,DEVICE_ID,STATUS,CURRENT,NAME,EMAIL,PHONE_NUMBER) VALUES(%s,%s,%s,%s,%s,%s,%s,%s)"
-            data = (_username,_password,_device,_status,_current,_name,_email,_phone,)
+            sql = "INSERT INTO users2(UID,USERNAME,PASSWORD,STATUS,CURRENTTIME,NAME,EMAIL,PHONE_NUMBER) VALUES(%s,%s,%s,%s,%s,%s,%s,%s)"
+            data = (_device,_username,_password,_status,_current,_name,_email,_phone,)
             conn = mysql.connect()
             cursor = conn.cursor()
             cursor.execute(sql, data)
@@ -39,7 +39,7 @@ def users():
     try:
         conn=mysql.connect()
         cursor=conn.cursor(pymysql.cursors.DictCursor)
-        cursor.execute("SELECT * FROM users")
+        cursor.execute("SELECT * FROM users2")
         rows=cursor.fetchall()
         resp=jsonify(rows)
         resp.status_code=200
@@ -55,7 +55,7 @@ def user(id):
     try:
         conn=mysql.connect()
         cursor=conn.cursor(pymysql.cursors.DictCursor)
-        cursor.execute("SELECT * FROM users WHERE DEVICE_ID=%s",id)
+        cursor.execute("SELECT * FROM users2 WHERE UID=%s",id)
         row=cursor.fetchone()
         resp=jsonify(row)
         resp.status_code=200
@@ -70,7 +70,7 @@ def user(id):
 def update_user():
     try:
         _json = request.json
-        _device=_json['id']
+        _user=_json['id']
         _username=_json['username']
         _password=_json['password']
         _status=_json['status']
@@ -78,9 +78,9 @@ def update_user():
         _name = _json['name']
         _email = _json['email']
         _phone=_json['phone']
-        if _username and _password and _device and _status and _current and _name and _email and _phone and request.method=='POST':
-            sql = "UPDATE users SET USERNAME=%s,PASSWORD=%s,STATUS=%s,CURRENT=%s,NAME=%s,EMAIL=%s,PHONE_NUMBER=%s WHERE DEVICE_ID=%s"
-            data = (_username,_password,_status,_current,_name,_email,_phone,_device,)
+        if _username and _password and _user and _status and _current and _name and _email and _phone and request.method=='POST':
+            sql = "UPDATE users2 SET USERNAME=%s,PASSWORD=%s,STATUS=%s,CURRENTTIME=%s,NAME=%s,EMAIL=%s,PHONE_NUMBER=%s WHERE UID=%s"
+            data = (_username,_password,_status,_current,_name,_email,_phone,_user,)
             conn = mysql.connect()
             cursor = conn.cursor()
             cursor.execute(sql, data)
@@ -100,7 +100,7 @@ def delete_user(id):
     try:
         conn=mysql.connect()
         cursor=conn.cursor()
-        cursor.execute("DELETE FROM users WHERE DEVICE_ID=%s",(id,))
+        cursor.execute("DELETE FROM users2 WHERE UID=%s",(id,))
         conn.commit()
         resp=jsonify('Attention !!! DATA Deleted')
         resp.status_code=200
