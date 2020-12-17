@@ -16,42 +16,38 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Current Database: `users`
+-- Table structure for table `users2`
 --
 
-CREATE DATABASE /*!32312 IF NOT EXISTS*/ `users` /*!40100 DEFAULT CHARACTER SET latin1 */;
-
-USE `users`;
-
---
--- Table structure for table `users`
---
-
-DROP TABLE IF EXISTS `users`;
+DROP TABLE IF EXISTS `users2`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `users` (
-  `USERNAME` varchar(10) DEFAULT NULL,
-  `PASSWORD` varchar(10) DEFAULT NULL,
-  `DEVICE_ID` int(11) NOT NULL,
+CREATE TABLE `users2` (
+  `UID` int(11) NOT NULL AUTO_INCREMENT,
+  `USERNAME` varchar(20) DEFAULT NULL,
+  `PASSWORD` varchar(20) DEFAULT NULL,
   `STATUS` varchar(10) DEFAULT NULL,
-  `CURRENT` varchar(20) DEFAULT NULL,
+  `CURRENTTIME` varchar(20) DEFAULT NULL,
   `NAME` varchar(50) DEFAULT NULL,
-  `EMAIL` varchar(30) DEFAULT NULL,
+  `EMAIL` varchar(20) DEFAULT NULL,
   `PHONE_NUMBER` varchar(20) DEFAULT NULL,
-  PRIMARY KEY (`DEVICE_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  PRIMARY KEY (`UID`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `users`
+-- Dumping data for table `users2`
 --
 
-LOCK TABLES `users` WRITE;
-/*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES ('user1','ABCFDHD',1,'enable','11:46 AM','Amar','abc@def.com','985551');
-/*!40000 ALTER TABLE `users` ENABLE KEYS */;
+LOCK TABLES `users2` WRITE;
+/*!40000 ALTER TABLE `users2` DISABLE KEYS */;
+INSERT INTO `users2` VALUES (1,'user1','ABCFDHD','enable','11:46 AM','Amar','abc@def.com','985551');
+/*!40000 ALTER TABLE `users2` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Dumping routines for database 'users'
+--
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -62,4 +58,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2020-12-16 18:24:45
+-- Dump completed on 2020-12-17 22:14:42
