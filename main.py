@@ -3,8 +3,13 @@ from app import app
 from db_config import mysql
 from flask import jsonify
 from flask import flash,request
+from security import auth,identity
+from flask_jwt import JWT,jwt_required
 
+app.secret_key='mukesh'
+jwt=JWT(app,auth,identity)
 @app.route('/add',methods=['POST'])
+@jwt_required()
 def add_user():
     try:
         _json = request.json
@@ -32,9 +37,10 @@ def add_user():
         print(e)
     finally:
         cursor.close()
-        conn.close() 
+        conn.close()  
 
 @app.route('/users')
+@jwt_required()
 def users():
     try:
         conn=mysql.connect()
@@ -51,6 +57,7 @@ def users():
         conn.close()
 
 @app.route('/user/<int:id>')
+@jwt_required()
 def user(id):
     try:
         conn=mysql.connect()
